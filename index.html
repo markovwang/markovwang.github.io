@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-My-First-Blog" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/08/06/My-First-Blog/" class="article-date">
+  <time class="dt-published" datetime="2021-08-06T09:39:05.000Z" itemprop="datePublished">2021-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/08/06/My-First-Blog/">My First Blog</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="第一章-函数模板"><a href="#第一章-函数模板" class="headerlink" title="第一章: 函数模板"></a>第一章: 函数模板</h1><p>本章介绍函数模板, 函数模板是一种参数化的函数们, 他们能够提供一个函数族.</p>
+<h2 id="1-1-初遇函数模板"><a href="#1-1-初遇函数模板" class="headerlink" title="1.1 初遇函数模板"></a>1.1 初遇函数模板</h2><p>函数模板提供一种对不同的类型可以被调用的函数行为. 换言之, 函数模板提供一个函数族, 这种表示方法看起来像普通的函数——除了它的一些元素未被定义, 这些元素被参数化了. 为了能够给你展示, 我们来看一个简单的例子.</p>
+<h3 id="1-1-1-定义模板"><a href="#1-1-1-定义模板" class="headerlink" title="1.1.1 定义模板"></a>1.1.1 定义模板</h3><p>下面是个能够返回两个值的中较大值的一个函数模板:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义在头文件 basics/max1.hpp中</span></span><br><span class="line"></span><br><span class="line"><span class="function">T <span class="title">max</span> <span class="params">(T a,T b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 若 b &lt; a 则返回a, 否则返回 b</span></span><br><span class="line">	<span class="keyword">return</span> b &lt; a ? a : b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个模板定义了一个函数族, 能够返回两只中的较大值, 这两个值由函数参数<code>a</code>和<code>b</code>传入[^1]. 这些参数的类型保留为<em>模板参数<code>T</code></em>, 如同刚刚看到的这个例子, 模板参数需要以以下的方式进行声明:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt; 逗号分隔的参数列表 &gt;</span><br></pre></td></tr></table></figure>
+
+<p>在本例中, 参数列表是<code>typename T</code>. 注意<code>&lt;</code>和<code>&gt;</code>符号被用作了括号, 我们称其为<em>尖括号</em>,  <code>typename</code>关键字引入了一个类型参数, 这是C++程序中大多模板参数的样子, 但是其他样子的参数也有, 对此我们在第三章见.</p>
+<p>此处, 类型参数是<code>T</code>, 你可以把任何标识符用作参数的名字, 但是用<code>T</code>比较方便. 这个类型参数表示它可以是任意类型, 直到调用者调用此函数才会决定其类型. 你能使用任何类型(基本类型, 类, 或者其他什么)——只要它能提供模板使用的操作. 在本例中, 类型<code>T</code>必须支持<code>&lt;操作符</code>因为<code>a</code>和<code>b</code>将使用此操作符进行比较, 可能<code>max()</code>的定义中不太容易看出的是类型T必须是可复制的, 以便能够返回.[^2]</p>
+<p>因为一些历史因素, 你也能用<code>class</code>关键字代替<code>typename</code>关键字定义类型参数, <code>typename</code>关键字在C++98被提出来. 在那之前, <code>class</code>关键字是唯一被用来引入类型参数的, 直到今天其依然是合法的.在语义上两者也是没有区别的. 然而, 这样写可能导致一些字面上误会, 所以还是用<code>typename</code>比较好. 然而, 虽然<code>class</code>是可以用的, 但<code>struct</code>是不可以用在类型参数的声明的.</p>
+<h3 id="1-1-2-使用模板"><a href="#1-1-2-使用模板" class="headerlink" title="1.1.2 使用模板"></a>1.1.2 使用模板</h3><p>下面的程序展示了如何使用<code>max()</code>函数模板:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// basics/max1.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;max1.hpp&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">42</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;max(7,i): &quot;</span> &lt;&lt; ::<span class="built_in">max</span>(<span class="number">7</span>,i) &lt;&lt; ’\n’;</span><br><span class="line">	<span class="keyword">double</span> f1 = <span class="number">3.4</span>; <span class="keyword">double</span> f2 = <span class="number">-6.7</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;max(f1,f2): &quot;</span> &lt;&lt; ::<span class="built_in">max</span>(f1,f2) &lt;&lt; ’\n’;</span><br><span class="line">	std::string s1 = <span class="string">&quot;mathematics&quot;</span>; std::string s2 = <span class="string">&quot;math&quot;</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;max(s1,s2): &quot;</span> &lt;&lt; ::<span class="built_in">max</span>(s1,s2) &lt;&lt; ’\n’;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在本程序中, <code>max</code>被调用了三次, 第一次是两个<code>int</code>, 第二次是两个<code>double</code>, 第三次是<code>std::string</code>, 每次均计算了较大值. 程序的输出结果如下所示:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">max(7,i): 42</span><br><span class="line">max(f1,f2): 3.4</span><br><span class="line">max(s1,s2): mathematics</span><br></pre></td></tr></table></figure>
+
+<p>注意到每次调用的时候均写了<code>::</code>, 这是为了确保其能够在全局命名空间中找到. 毕竟我们的标准库还有一个<code>std::max()</code>, 在某些情况下调用会导致二义性[^3].</p>
+<p>模板并非被编译为一个能够处理任何类型的函数实体, 相反, 针对不同类型的调用, 模板会被编译成不同的函数实体.[^4] 因此, <code>max()</code>针对这三个类型均被编译了一次, 比如, 刚刚, 我们第一次调用<code>max()</code>的时候, 函数模板中的<code>T</code>被替换成了<code>int</code>, 也就是这样了:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">max</span> <span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> b &lt; a ? a : b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个替换模板参数为具体类型的过程被称为<em>模板实例化</em>, 它能得到模板的一个实例[^5].</p>
+<p>注意, 仅仅是使用模板就会触发模板实例化的过程, 所以不用程序员去单独手动请求实例化. </p>
+<p>类似的, 使用其它类型调用<code>max()</code>模板是都会被各自实例化的.</p>
+<p>注意一点: <code>void</code>类型是一个合法的模板类型实参, 举个例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">T <span class="title">foo</span><span class="params">(T*)</span></span></span><br><span class="line"><span class="function"></span>&#123; &#125;</span><br><span class="line"><span class="keyword">void</span>* vp = <span class="literal">nullptr</span>;</span><br><span class="line"><span class="built_in">foo</span>(vp); <span class="comment">// OK: 推断为void</span></span><br><span class="line"><span class="built_in">foo</span>(<span class="keyword">void</span>*)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-1-3-模板两轮翻译-原文为’Two-Phase-Translation‘"><a href="#1-1-3-模板两轮翻译-原文为’Two-Phase-Translation‘" class="headerlink" title="1.1.3 模板两轮翻译(原文为’Two-Phase Translation‘)"></a>1.1.3 模板两轮翻译(原文为’<em>Two-Phase Translation</em>‘)</h3><p><em>这个国内似乎没有固定的翻译, 有的说替换 ,有的说翻译, 差别不大</em></p>
+<p>尝试把模板实例化一个不支持其中用到的所有操作的实例会导致编译期报错, 举个例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">std::complex&lt;<span class="keyword">float</span>&gt; c1, c2; <span class="comment">// 并没有提供 &lt;操作符</span></span><br><span class="line">…</span><br><span class="line">::<span class="built_in">max</span>(c1,c2); <span class="comment">// 编译期报错终止</span></span><br></pre></td></tr></table></figure>
+
+<p>因此, 模板是经过两轮”编译’’的:</p>
+<ol>
+<li>在定义的时候没有实例化, 模板代码会忽略掉和模板参数相关的代码并进行检查, 其包括:<ul>
+<li>检查发现语法, 比如丢了分号.</li>
+<li>出现了未知的名字: 类型名, 函数名——与模板参数无关的.</li>
+<li>于模板参数无关的静态断言将被检查.</li>
+</ul>
+</li>
+<li>在实例化期间, 模板会再被检查一次, 以保障代码是合法的, 换言之, 所有依赖模板参数的代码会被二次检查,举个例子:</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(T t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">undeclared</span>(); <span class="comment">// 如果unceclared()未被定义, 将在第一轮报编译期报错</span></span><br><span class="line">	<span class="built_in">undeclared</span>(t); <span class="comment">// 如果unceclared(T)未被定义, 将在第二轮报编译期报错</span></span><br><span class="line">	<span class="built_in"><span class="keyword">static_assert</span></span>(<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>) &gt; <span class="number">10</span>, <span class="comment">//如果 sizeof(int)&lt;=10 总是会报错</span></span><br><span class="line">								<span class="string">&quot;int too small&quot;</span>);</span><br><span class="line">	<span class="built_in"><span class="keyword">static_assert</span></span>(<span class="built_in"><span class="keyword">sizeof</span></span>(T) &gt; <span class="number">10</span>, <span class="comment">//如果T的大小小于10则在第二轮报错.</span></span><br><span class="line">								<span class="string">&quot;T too small&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>名字将被检查两次这件事被称为<code>两轮检查</code>, 将在14.3.1小结讨论.</p>
+<p>不过注意到一些编译器不能在第一轮实例化时进行应完成的全部检查[^6], 所以你只能在实例化时才发现应在第一步就被检查出的问题.</p>
+<h3 id="编译与链接"><a href="#编译与链接" class="headerlink" title="编译与链接"></a>编译与链接</h3><p>两轮检查将会导致在使用中出现很严重的问题: 当一个函数模板以一种触发其实例化的方式使用的时候, 编译器会(在某些情况下)查看模板的定义, 其将打破对于常规函数编译和链接的区别, 处理此问题的方法将在第九章介绍, 目前, 我们只讲最简单的方法, 在头文件中定义每一个模板.</p>
+<p>[^1]: 注意到<code>max()</code>返回的是”<code>b &lt; a ? a : b</code>“, 而非”<code>a &lt; b ? b: a</code>“, 以保证函数能够处理两个值等价却不相等的问题, <a target="_blank" rel="noopener" href="https://zh.cppreference.com/w/cpp/language/operator_comparison">https://zh.cppreference.com/w/cpp/language/operator_comparison</a><br>[^2]: 在C++17之前, 类型<code>T</code>要求可拷贝以传入实参, 但从C++17起, 你可以传入一个临时值(右值),尽管其不能提供一拷贝或者移动构造函数.<br>[^3]: 比如, 如果如果一个实参类型在<code>std</code>空间中定义了, 根据C++的查找规则, 全局和<code>std</code>命名空间中的同名函数均会被找到.<br>[^4]: 一个实体, 谁都能调, 这种是可以做到的, 但不会在实际编程中用到.(它在运行时的效率会低很多)所有的语言规则均是基于不同实参,不同实体的原则.<br>[^5]: <code>实例</code>和<code>实例化</code>这两个术语对于面向对象语言,在上下文不同时有不同含义: 从名字上来看, 是一个类的实体的含义. 然而. 这本书是讲模板的, 这个词主要针对模板, 除非我们做了特殊说明.<br>[^6]: 举个例子, MSVC编译器的某些版本允许不依赖模板参数的未定义名称, 甚至还允许一些语法错误,比如少了个分号.(又黑我大微软, 请加大力度)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/08/06/My-First-Blog/" data-id="cks05sdw8000084ut16cg3wx2" data-title="My First Blog" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-%E6%A8%A1%E6%9D%BF/" rel="tag">C++ 模板</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/08/06/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2021-08-06T09:33:35.773Z" itemprop="datePublished">2021-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/08/06/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/08/06/hello-world/" data-id="cks05ihle0000sgut90fffad1" data-title="Hello World" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E6%A8%A1%E6%9D%BF/" rel="tag">C++ 模板</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C-%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">C++ 模板</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/08/06/My-First-Blog/">My First Blog</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/06/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
