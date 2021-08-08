@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"markovwang.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.3 多模板参数就目前为止, 我们见过的函数模板有两种参数:  模板参数,  在函数名前使用尖括号初始化.  1template&lt;typename T&gt;		&#x2F;&#x2F; T是模板参数   调用参数, 在函数模板的小括号中声明:  1T max(T a, T b)				&#x2F;&#x2F; a和b是调用参数  只要你想, 拥有多少模板参数都可以, 举个例子, 你可以为max()的调用参数定义两种不同的类型:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.3 多模板参数">
+<meta property="og:url" content="http://markovwang.github.io/2021/08/08/1-3/index.html">
+<meta property="og:site_name" content="马尔可夫妙妙屋">
+<meta property="og:description" content="1.3 多模板参数就目前为止, 我们见过的函数模板有两种参数:  模板参数,  在函数名前使用尖括号初始化.  1template&lt;typename T&gt;		&#x2F;&#x2F; T是模板参数   调用参数, 在函数模板的小括号中声明:  1T max(T a, T b)				&#x2F;&#x2F; a和b是调用参数  只要你想, 拥有多少模板参数都可以, 举个例子, 你可以为max()的调用参数定义两种不同的类型:">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-08-08T15:59:40.000Z">
+<meta property="article:modified_time" content="2021-08-08T16:00:55.220Z">
+<meta property="article:author" content="Markov Wang">
+<meta property="article:tag" content="C++模板">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://markovwang.github.io/2021/08/08/1-3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>1.3 多模板参数 | 马尔可夫妙妙屋</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">马尔可夫妙妙屋</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://markovwang.github.io/2021/08/08/1-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Markov Wang">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="马尔可夫妙妙屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          1.3 多模板参数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2021-08-08 23:59:40" itemprop="dateCreated datePublished" datetime="2021-08-08T23:59:40+08:00">2021-08-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-08-09 00:00:55" itemprop="dateModified" datetime="2021-08-09T00:00:55+08:00">2021-08-09</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-3-多模板参数"><a href="#1-3-多模板参数" class="headerlink" title="1.3 多模板参数"></a>1.3 多模板参数</h2><p>就目前为止, 我们见过的函数模板有两种参数:</p>
+<ol>
+<li>模板参数,  在函数名前使用尖括号初始化.</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;		<span class="comment">// T是模板参数</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>调用参数, 在函数模板的小括号中声明:</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T <span class="title">max</span><span class="params">(T a, T b)</span>				<span class="comment">// a和b是调用参数</span></span></span><br></pre></td></tr></table></figure>
+
+<p>只要你想, 拥有多少模板参数都可以, 举个例子, 你可以为<code>max()</code>的调用参数定义两种不同的类型:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span></span><br><span class="line"><span class="function">T1 <span class="title">max</span> <span class="params">(T1 a, T2 b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> b &lt; a ? a : b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">auto</span> m - ::<span class="built_in">max</span>(<span class="number">4</span>,<span class="number">7.2</span>);		<span class="comment">// 可以运行, 但是返回类型被定义为了第一个实参的类型.</span></span><br></pre></td></tr></table></figure>
+
+<p> 看起来向<code>max()</code>模板中传不同类型的参数是可行的, 但是, 如同此例中所展示的那样, 这玩意儿有个问题, 如果你把这些类型中的一种类型作为返回类型, 其它实参的类型也将有可能被转换为此类型, 不管这是否符合调用者原本的意图, 因此, (这种写法的)返回类型取决于调用者的调用顺序. 这样的话, 42和66.66的较大值是<code>int</code>的66, 66.66和42的较大值将是<code>double</code>的66.66.</p>
+<p>C++提供了多种方法来解决此问题:</p>
+<ul>
+<li>引入一个第三个类型作为返回类型.</li>
+<li>让编译器找到返回类型.</li>
+<li>将返回值定义为两者的共同类型.</li>
+</ul>
+<p>我们接下来将讨论一下.</p>
+<h3 id="1-3-1-为返回类型定义模板参数"><a href="#1-3-1-为返回类型定义模板参数" class="headerlink" title="1.3.1 为返回类型定义模板参数"></a>1.3.1 为返回类型定义模板参数</h3><p>我们之前讨论过, 模板实参推断允许我们和调用普通函数的语法一样去调用函数模板: 我们不必显式的根据模板参数定义其类型.</p>
+<p>然而, 我们也提到过, 我们可以显式的指定模板的类型:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">T <span class="title">max</span> <span class="params">(T a, T b)</span></span>;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">::max&lt;<span class="keyword">double</span>&gt;(<span class="number">4</span>,<span class="number">7.2</span>);		<span class="comment">// 以double实例化T</span></span><br></pre></td></tr></table></figure>
+
+<p>当模板和调用参数没有联系或者模板参数不能被确定的情况下, 你必须在调用的时候显式的指定模板实参.举个例子, 你可以引入第三个模板实参来决定函数模板的返回类型:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2, <span class="keyword">typename</span> RT&gt;</span><br><span class="line"><span class="function">RT <span class="title">max</span> <span class="params">(T1 a, T2 b)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>然而, 模板实参推导并不会考虑RT, 而且RT也不会出现在函数调用参数的类型中, 因此RT不能被推倒.</p>
+<p>结果就是你必须要显式的指定模板实参列表, 举个例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2, <span class="keyword">typename</span> RT&gt;</span></span><br><span class="line"><span class="function">RT <span class="title">max</span> <span class="params">(T1 a, T2 b)</span></span>;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">::max&lt;<span class="keyword">int</span>,<span class="keyword">double</span>,<span class="keyword">double</span>&gt;(<span class="number">4</span>, <span class="number">7.2</span>);			<span class="comment">//可行, 但是有点脱裤子放屁.</span></span><br></pre></td></tr></table></figure>
+
+<p>目前为止, 我们即看过了丝毫没有提到模板实参的例子, 也看了把所有模板实参均提及的例子. 另外一个方法是只显式的给定第一个实参然后允许推导阶段处理剩余其他的实参. 总之, 你必须指定这些类型到不能隐式判断类型的最后一个. 因此, 如果你改一下模板参数的顺序, 调用者也就仅需要指定返回类型了:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">template</span>&lt; <span class="keyword">typename</span> RT, <span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span></span><br><span class="line"><span class="function">RT <span class="title">max</span><span class="params">(T1 a, T2 b)</span></span>;</span><br><span class="line">::max&lt;<span class="keyword">double</span>&gt;(<span class="number">4</span>, <span class="number">7.2</span>)			<span class="comment">// 可行, 返回类类型是double, T1,T2为推导出来的.</span></span><br></pre></td></tr></table></figure>
+
+<p>在本例中, 显式将<code>RT</code>设为<code>double</code>的调用<code>max&lt;double&gt;</code>, 但是<code>T1</code>,<code>T2</code>从实参中推断为了<code>int</code>和<code>double</code>. </p>
+<p>注意到就算修改过各种不同的<code>max()</code>版本, 也没能得到多少显著的好处. 这个单参数版本中, 你已经可以在传入两个不同类型的实参的时候指定参数. 因此, 让其保持简单并使用单参数版本是个不错的注意.</p>
+<p>推导过程的细节详见第15章.</p>
+<h3 id="1-3-2-推导返回类型"><a href="#1-3-2-推导返回类型" class="headerlink" title="1.3.2 推导返回类型"></a>1.3.2 推导返回类型</h3><p>如果返回类型取决于模板参数, 最好的, 最简单的方法就是让编译器进行推导. 从C++14起, 我们可以不声明任何返回类型(当然你要写<code>auto</code>关键字啦~):</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// basics/maxauto.cpp</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">max</span> <span class="params">(T1 a, T2 b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> b &lt; a ? a : b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际上, 使用<code>auto</code>关键字作为返回类型, 而不写尾置返回类型, 表明实际的返回类型必须由函数体中的返回声明语句推导而来. 因此, 代码必须可用且可以匹配多个返回声明.</p>
+<p>在C++14之前, 我们只能或多或少是的函数的一部分成为生命的一部分让编译器来判断返回类型,在C++11中, 我们可以从尾置返回类型语法中受益. 即, 我们可以从<code>operator?:</code>操作符返回的类型来声明.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// basics/maxdecltype.hpp</span></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">max</span><span class="params">(T1 a, T2 b)</span> -&gt; <span class="title">decltype</span><span class="params">(b&lt;a? a:b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	b&lt;a? a:b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处, 结果的类型由<code>?:</code>操作符决定, 这个东西颇为复杂, 但是能产生一个比较直观可预期的结果. (比如当<code>a</code>和<code>b</code>有不同的算术类型的时候, 结果将产生一个两者的公用类型.)</p>
+<p>注意到一点:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">max</span> <span class="params">(T1 a, T2 b)</span> -&gt; <span class="title">decltype</span><span class="params">(b&lt;a?a:b)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个声明, 所以编译器用使用<code>?:</code>操作符调用两个参数的规则在编译期来寻找返回类型. 所以函数的实现也不必与其匹配. 实际上, 在此场景下使用<code>true</code>喂给<code>?:</code>操作符的来声明已经足够了.</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">max</span> <span class="params">(T1 a, T2 b)</span> -&gt; <span class="title">decltype</span><span class="params">(<span class="literal">true</span>?a:b)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>然而, 在某些情况下, 这个定义都有一个很大的问题: 这个可能发生在返回类型是一个引用类型的时候, 因为某些情况下, <code>T</code>可能是个引用, 因此, 你应返回由<code>T</code>退化的类型, 大致如此:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// basics/maxdecltypedecay.hpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;type_traits&gt;</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, typenam T2&gt;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">max</span> <span class="params">(T1 a, T2 b)</span> -&gt; <span class="keyword">typename</span> std::decay&lt;<span class="keyword">decltype</span>&lt;<span class="literal">true</span>?a:b&gt;::type</span></span><br><span class="line"><span class="function">&#123;</span></span><br><span class="line">	<span class="keyword">return</span> b &lt; a ? a : b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此处, 我们用到了<code>std::decay&lt;&gt;</code>类型萃取, 其使用<code>type</code>来返回结果的类型, 其定义在标准库中的<code>&lt;type_traits&gt;</code>头文件中, (详见附录D.5.) 因为<code>type</code>是一个类型, 所以我们要用<code>typename</code>限定符来获取它. </p>
+<p>注意到使用<code>auto</code>来初始化总是会使类型退化, 对于仅仅使用<code>auto</code>作为返回类型时也是如此. <code>auto</code>作为一个返回类型, 其行为如下所示, 其中<code>a</code>被<code>i</code>退化后的类型声明:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span>&amp; ir = i;			<span class="comment">// ir 是 i的引用</span></span><br><span class="line"><span class="keyword">auto</span> a = ir;				<span class="comment">// a被定义为了int类型</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-3-3-返回公共类型"><a href="#1-3-3-返回公共类型" class="headerlink" title="1.3.3 返回公共类型"></a>1.3.3 返回公共类型</h3><p>从C++11起, C++标准库提供了一种能够选择更通用的类型, <code>std::common_type&lt;&gt;::type</code>返回两者或者更多不同类型的参数的共同类型. 举个例子:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// basics/maxcommon.hpp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> &lt;type_traits.</span></span><br><span class="line"><span class="function">std::<span class="keyword">common_type_t</span>&lt;T1,T2&gt; <span class="title">max</span> <span class="params">(T1 a, T2 b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> b &lt; a ? a : b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重复一次, <code>std::common_type&lt;&gt;</code>是一个类型萃取, 其定义在<code>&lt;type_traits&gt;</code>中, 其有一个带有<code>type</code>成员的结构体, 作为结果类型. 因此, 其核心用途如下所示:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typename</span> std::common_type&lt;T1,T2&gt;::type <span class="comment">// C++11 起</span></span><br></pre></td></tr></table></figure>
+
+<p>不过, 从C++14起, 你可以通过在这些萃取的后面加个<code>_t</code>来简化其用法. 以省略<code>typename</code>和<code>::type</code>(详见2.8节), 所以可以如此简单的定义返回类型:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">std::<span class="keyword">common_type_t</span>&lt;T1,T2&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>std::commom_type</code>的实现用了些模板编程的技巧, 将在26.5.2小节讨论. 在内部, 使用<code>?:</code>操作符确定返回类型或者是为某些特殊的类型特化. 因此, 不管怎样的调用顺序均可以返回类型<code>double</code>. 注意<code>std::common_type</code>也会退化, 详见附录D.5.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-%E6%A8%A1%E6%9D%BF/" rel="tag"># C++模板</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/08/1-2/" rel="prev" title="1.2 模板实参推断">
+      <i class="fa fa-chevron-left"></i> 1.2 模板实参推断
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%A4%9A%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">1.3 多模板参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-%E4%B8%BA%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B%E5%AE%9A%E4%B9%89%E6%A8%A1%E6%9D%BF%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">1.3.1 为返回类型定义模板参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-%E6%8E%A8%E5%AF%BC%E8%BF%94%E5%9B%9E%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">1.3.2 推导返回类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-%E8%BF%94%E5%9B%9E%E5%85%AC%E5%85%B1%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">1.3.3 返回公共类型</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Markov Wang"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Markov Wang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Markov Wang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
